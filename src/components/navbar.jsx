@@ -3,10 +3,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+    const { theme, setTheme } = useTheme();
+const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
+
+if (!mounted) return null;
+
+
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white text-black dark:bg-gray-900 dark:text-white shadow-md">
 
       <div className="w-full px-8">
 
@@ -56,6 +68,13 @@ const Navbar = () => {
           {/* right side */}
         <div className="w-220px flex items-center justify-end gap-4">
 
+          <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700"
+              >
+                {theme === "dark" ? "🌞 Light" : "🌙 Dark"}
+                  </button>
+
           <button className="bg-blue-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-cyan-700 transition">
             Login
               </button>
@@ -66,7 +85,7 @@ const Navbar = () => {
 
         <FaUserCircle className="text-4xl text-gray-600 cursor-pointer hover:text-blue-600" />
           </div>
-
+          
         </div>
       </div>
     </nav>
