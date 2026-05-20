@@ -1,16 +1,19 @@
-"use client";
-
+import HomeTutors from "@/components/HomeTutors";
 import Banner from "@/components/Banner";
 
-export default function Home() {
+async function getTutors() {
+  const res = await fetch("http://localhost:5000/tutors");
+
+  return res.json();
+}
+
+export default async function Home() {
+  const tutors = await getTutors();
+
   return (
-
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-
-  
-      <Banner />
-
+    <div>
+      <Banner/>
+      <HomeTutors tutors={tutors} />
     </div>
-
   );
 }

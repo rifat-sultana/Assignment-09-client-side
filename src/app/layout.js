@@ -27,22 +27,23 @@ export default function RootLayout({ children }) {
   <body
     className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-black text-black dark:text-white`}
   >
-        
-        <ThemeProvider>
-       
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
+    <ThemeProvider>
 
-            <main className="flex-1 w-full">
-              {children}
-            </main>
-          </div>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+
+        <main className="flex-1 w-full">
+          {children}
+        </main>
 
         <Footer />
 
-        </ThemeProvider>
+      </div>
 
-      </body>
-    </html>
+    </ThemeProvider>
+
+  </body>
+  
+</html>
   );
 }
