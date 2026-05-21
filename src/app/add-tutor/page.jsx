@@ -11,20 +11,39 @@ export default function AddTutorPage() {
     const tutorData = {
 
       tutorName: form.tutorName.value,
+
       photo: form.photo.value,
+
       subject: form.subject.value,
+
       availableDays: form.availableDays.value,
+
       availableTime: form.availableTime.value,
+
       hourlyFee: form.hourlyFee.value,
+
       totalSlot: form.totalSlot.value,
+
       sessionStartDate:
         form.sessionStartDate.value,
+
       institution: form.institution.value,
+
       experience: form.experience.value,
+
       location: form.location.value,
+
       teachingMode: form.teachingMode.value,
 
+      // USER INFO
+
+      userName: "Rifat",
+
+      userEmail: "rifat@gmail.com",
+
     };
+
+    console.log(tutorData);
 
     fetch("http://localhost:5000/tutors", {
 
@@ -40,6 +59,8 @@ export default function AddTutorPage() {
       .then((res) => res.json())
 
       .then((data) => {
+
+        console.log(data);
 
         if (data.insertedId) {
 
@@ -91,7 +112,7 @@ export default function AddTutorPage() {
             />
           </div>
 
-          {/* Photo */}
+          {/* Photo URL */}
 
           <div>
 
@@ -200,7 +221,7 @@ export default function AddTutorPage() {
             />
           </div>
 
-          {/* Date */}
+          {/* Session Start Date */}
 
           <div>
 
@@ -288,7 +309,7 @@ export default function AddTutorPage() {
             </select>
           </div>
 
-          {/* Button */}
+          {/* Submit Button */}
 
           <button
             type="submit"
