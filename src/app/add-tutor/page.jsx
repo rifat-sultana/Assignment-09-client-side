@@ -1,5 +1,7 @@
 "use client";
 
+import { authHeaders } from "@/lib/jwt";
+
 export default function AddTutorPage() {
 
   const handleAddTutor = (e) => {
@@ -35,15 +37,7 @@ export default function AddTutorPage() {
 
       teachingMode: form.teachingMode.value,
 
-      // USER INFO
-
-      userName: "Rifat",
-
-      userEmail: "rifat@gmail.com",
-
     };
-
-    console.log(tutorData);
 
     fetch("http://localhost:5000/tutors", {
 
@@ -51,6 +45,7 @@ export default function AddTutorPage() {
 
       headers: {
         "content-type": "application/json",
+        ...authHeaders(),
       },
 
       body: JSON.stringify(tutorData),
