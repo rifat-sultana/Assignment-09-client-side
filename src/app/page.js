@@ -1,8 +1,10 @@
 import HomeTutors from "@/components/HomeTutors";
 import Banner from "@/components/Banner";
 
+export const dynamic = 'force-dynamic';
+
 async function getTutors() {
-  const res = await fetch(`${API_KEY}/tutors`);
+  const res = await fetch(`${process.env.API_KEY}/tutors`);
 
   return res.json();
 }
