@@ -1,18 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { authHeaders } from "@/lib/jwt";
 
 export default function MyBookedSessions() {
 
   const [bookings, setBookings] = useState([]);
 
-  const userEmail =
-    "demo@gmail.com";
-
   useEffect(() => {
 
     fetch(
-      `http://localhost:5000/bookings?email=${userEmail}`
+      `http://localhost:5000/bookings`,
+      { headers: authHeaders() }
     )
       .then((res) => res.json())
       .then((data) =>
@@ -36,8 +35,8 @@ export default function MyBookedSessions() {
     fetch (
       `http://localhost:5000/bookings/${_id}`,
       {
-
         method: "PATCH",
+        headers: authHeaders(),
       }
     )
       .then((res) => res.json())
