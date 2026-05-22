@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { authHeaders, getUser } from "@/lib/jwt";
 
 export default function TutorsPage() {
 
@@ -21,28 +22,60 @@ export default function TutorsPage() {
 
   }, []);
 
-  // Book session function
+  // BOOK SESSION FUNCTION
 
-  const handleBookSession = (tutor) => {
+  const handleBookSession = async (tutor) => {
+
+    // SLOT CHECK
+
+    if (tutor.totalSlot === 0) {
+
+      alert(
+        "No available slots left"
+      );
+
+      return;
+    }
+
+    // DATE CHECK
+
+    const currentDate =
+      new Date();
+
+    const sessionDate =
+      new Date(
+        tutor.sessionStartDate
+      );
+
+    if (currentDate < sessionDate) {
+
+      alert(
+        "Booking is not available yet for this tutor"
+      );
+
+      return;
+    }
+
+    const user = getUser();
+
+    // BOOKING DATA
 
     const bookingData = {
 
       tutorName: tutor.tutorName,
 
-      studentName: "Demo User",
-
-      studentEmail: "demo@gmail.com",
-
       status: "booked",
     };
+
+    // SAVE BOOKING
 
     fetch("http://localhost:5000/bookings", {
 
       method: "POST",
 
       headers: {
-
         "content-type": "application/json",
+        ...authHeaders(),
       },
 
       body: JSON.stringify(
@@ -56,9 +89,43 @@ export default function TutorsPage() {
 
         if (data.insertedId) {
 
+          // SLOT DECREASE
+
+          fetch(
+
+            `http://localhost:5000/tutors/slot/${tutor._id}`,
+
+            {
+              method: "PATCH",
+            }
+          );
+
           alert(
             "Session Booked Successfully"
           );
+
+          // UI UPDATE
+
+          const updatedTutors =
+            tutors.map((item) => {
+
+              if (
+                item._id === tutor._id
+              ) {
+
+                return {
+
+                  ...item,
+
+                  totalSlot:
+                    item.totalSlot - 1,
+                };
+              }
+
+              return item;
+            });
+
+          setTutors(updatedTutors);
         }
       });
   };
@@ -72,6 +139,17 @@ export default function TutorsPage() {
         All Tutors
 
       </h1>
+
+      {
+        tutors.length === 0 && (
+
+          <div className="text-center text-2xl font-bold">
+
+            No Tutors Available
+
+          </div>
+        )
+      }
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -148,6 +226,18 @@ export default function TutorsPage() {
 
                 <span className="font-semibold">
 
+                  Available Slot:
+
+                </span>{" "}
+
+                {tutor.totalSlot}
+
+              </p>
+
+              <p>
+
+                <span className="font-semibold">
+
                   Mode:
 
                 </span>{" "}
@@ -158,12 +248,20 @@ export default function TutorsPage() {
 
               <button
 
+                disabled={tutor.totalSlot === 0}
+
                 onClick={() =>
                   handleBookSession(tutor)
                 }
-                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg w-full"
+
+                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg w-full disabled:bg-gray-400"
               >
-                Book Session
+
+                {
+                  tutor.totalSlot === 0
+                    ? "Fully Booked"
+                    : "Book Session"
+                }
 
               </button>
 
