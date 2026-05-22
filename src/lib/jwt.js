@@ -25,7 +25,7 @@ export function getUser() {
 }
 
 export async function fetchJWT() {
-  const res = await fetch("http://localhost:5000/api/jwt", {
+  const res = await fetch(`${API_KEY}/api/jwt`, {
     method: "POST",
     credentials: "include",
   });

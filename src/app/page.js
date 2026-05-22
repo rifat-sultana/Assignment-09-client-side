@@ -2,7 +2,7 @@ import HomeTutors from "@/components/HomeTutors";
 import Banner from "@/components/Banner";
 
 async function getTutors() {
-  const res = await fetch("http://localhost:5000/tutors");
+  const res = await fetch(`${API_KEY}/tutors`);
 
   return res.json();
 }

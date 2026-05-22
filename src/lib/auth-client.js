@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:5000",
+  baseURL: `${API_KEY}`,
   fetchOptions: {
     credentials: "include",
   },

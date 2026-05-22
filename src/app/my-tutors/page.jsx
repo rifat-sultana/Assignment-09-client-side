@@ -9,7 +9,7 @@ export default function MyTutorsPage() {
 
 	// loading my tutors
 	useEffect(() => {
-		fetch(`http://localhost:5000/tutors/my-tutors`, { headers: authHeaders() })
+		fetch(`${API_KEY}/tutors/my-tutors`, { headers: authHeaders() })
 			.then((res) => res.json())
 			.then((data) => {
         setTutors(data)
@@ -25,7 +25,7 @@ export default function MyTutorsPage() {
 			return;
 		}
 
-		fetch(`http://localhost:5000/tutors/${_id}`, {
+		fetch(`${API_KEY}/tutors/${_id}`, {
 			method: 'DELETE',
 			headers: authHeaders(),
 		})
@@ -59,7 +59,7 @@ export default function MyTutorsPage() {
 			location: form.location.value,
 		};
 
-		fetch(`http://localhost:5000/tutors/${selectedTutor._id}`, {
+		fetch(`${API_KEY}/tutors/${selectedTutor._id}`, {
 			method: 'PUT',
 
 			headers: {
