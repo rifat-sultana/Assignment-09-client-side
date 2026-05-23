@@ -10,7 +10,7 @@ export default function MyBookedSessions() {
   useEffect(() => {
 
     fetch(
-      `${process.env.API_KEY}/bookings`,
+      `${process.env.NEXT_PUBLIC_API_URL}/bookings`,
       { headers: authHeaders() }
     )
       .then((res) => res.json())
@@ -33,7 +33,7 @@ export default function MyBookedSessions() {
     }
 
     fetch (
-      `${process.env.API_KEY}/bookings/${_id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/bookings/${_id}`,
       {
         method: "PATCH",
         headers: authHeaders(),

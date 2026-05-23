@@ -9,7 +9,7 @@ export default function MyTutorsPage() {
 
 	// loading my tutors
 	useEffect(() => {
-		fetch(`${process.env.API_KEY}/tutors/my-tutors`, { headers: authHeaders() })
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/my-tutors`, { headers: authHeaders() })
 			.then((res) => res.json())
 			.then((data) => {
         setTutors(data)
@@ -25,7 +25,7 @@ export default function MyTutorsPage() {
 			return;
 		}
 
-		fetch(`${process.env.API_KEY}/tutors/${_id}`, {
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${_id}`, {
 			method: 'DELETE',
 			headers: authHeaders(),
 		})
@@ -59,7 +59,7 @@ export default function MyTutorsPage() {
 			location: form.location.value,
 		};
 
-		fetch(`${process.env.API_KEY}/tutors/${selectedTutor._id}`, {
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors/${selectedTutor._id}`, {
 			method: 'PUT',
 
 			headers: {

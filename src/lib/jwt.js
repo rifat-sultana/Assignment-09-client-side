@@ -25,7 +25,7 @@ export function getUser() {
 }
 
 export async function fetchJWT() {
-  const res = await fetch(`${process.env.API_KEY}/api/jwt`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/jwt`, {
     method: "POST",
     credentials: "include",
   });

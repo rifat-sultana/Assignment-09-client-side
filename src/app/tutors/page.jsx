@@ -9,7 +9,7 @@ export default function TutorsPage() {
 
   useEffect(() => {
 
-    fetch(`${process.env.API_KEY}/tutors`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`)
 
       .then((res) => res.json())
 
@@ -69,7 +69,7 @@ export default function TutorsPage() {
 
     // SAVE BOOKING
 
-    fetch(`${process.env.API_KEY}/bookings`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
 
       method: "POST",
 
@@ -93,7 +93,7 @@ export default function TutorsPage() {
 
           fetch(
 
-            `${process.env.API_KEY}/tutors/slot/${tutor._id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/tutors/slot/${tutor._id}`,
 
             {
               method: "PATCH",

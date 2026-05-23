@@ -39,7 +39,7 @@ export default function AddTutorPage() {
 
     };
 
-    fetch(`${process.env.API_KEY}/tutors`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`, {
 
       method: "POST",
 
