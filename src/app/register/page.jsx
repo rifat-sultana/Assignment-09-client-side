@@ -42,7 +42,6 @@ const Register = () => {
       });
 
       await authClient.signIn.email({ email, password });
-      await fetchJWT();
       refreshUser();
 
       toast.success("Registration Successful");
@@ -108,7 +107,7 @@ const Register = () => {
 
         <button
           type="button"
-          onClick={() => authClient.signIn.social({ provider: "google", callbackURL: "http://localhost:3000/auth/callback" })}
+          onClick={() => authClient.signIn.social({ provider: "google", callbackURL: `${window.location.origin}/auth/callback` })}
           className="w-full bg-white border border-gray-300 text-gray-700 py-2 rounded hover:bg-gray-50 flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
