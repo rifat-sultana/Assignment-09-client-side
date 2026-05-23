@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import ThemeProvider from "@/components/ThemeProvider";
 import Footer from "@/components/Footer";
+import AuthProvider from "@/components/AuthProvider";
+import { Toaster } from "react-hot-toast";
 
 
 export const metadata = {
@@ -19,18 +21,20 @@ export default function RootLayout({ children }) {
     className={`antialiased bg-white dark:bg-black text-black dark:text-white`}
   >
     <ThemeProvider>
+      <AuthProvider>
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
 
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
+          <main className="flex-1 w-full">
+            {children}
+          </main>
 
-        <main className="flex-1 w-full">
-          {children}
-        </main>
+          <Footer />
 
-        <Footer />
+        </div>
 
-      </div>
-
+        <Toaster position="top-center" />
+      </AuthProvider>
     </ThemeProvider>
 
   </body>

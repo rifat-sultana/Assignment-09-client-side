@@ -1,7 +1,4 @@
 {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
@@ -37,45 +34,4 @@
 		"src/app/register/page.jsx"
 	],
 	"exclude": ["node_modules"]
-=======
->>>>>>> a751740 (READme.MD file completed)
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "noEmit": true,
-    "incremental": true,
-    "module": "esnext",
-    "esModuleInterop": true,
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
-<<<<<<< HEAD
-=======
->>>>>>> 94b62c9 (READme.MD file completed)
->>>>>>> a751740 (READme.MD file completed)
 }

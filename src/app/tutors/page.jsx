@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { authHeaders, getUser } from "@/lib/jwt";
 
 export default function TutorsPage() {
 
@@ -8,7 +9,7 @@ export default function TutorsPage() {
 
   useEffect(() => {
 
-    fetch("http://localhost:5000/tutors")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`)
 
       .then((res) => res.json())
 
@@ -21,18 +22,6 @@ export default function TutorsPage() {
 
   }, []);
 
-<<<<<<< HEAD
-  // BOOK SESSION FUNCTION
-
-  const handleBookSession = async (tutor) => {
-=======
-<<<<<<< HEAD
-		if (currentDate < sessionDate) {
-			alert('Booking is not available yet for this tutor');
-
-			return;
-		}
-=======
   // BOOK SESSION FUNCTION
 
   const handleBookSession = async (tutor) => {
@@ -67,57 +56,7 @@ export default function TutorsPage() {
       return;
     }
 
-    // BOOKING DATA
->>>>>>> 94b62c9 (READme.MD file completed)
->>>>>>> a751740 (READme.MD file completed)
-
-    // SLOT CHECK
-
-    if (tutor.totalSlot === 0) {
-
-      alert(
-        "No available slots left"
-      );
-
-      return;
-    }
-
-    // DATE CHECK
-
-<<<<<<< HEAD
-    const currentDate =
-      new Date();
-=======
-<<<<<<< HEAD
-		fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
-			method: 'POST',
-=======
-    // SAVE BOOKING
-
-    fetch("http://localhost:5000/bookings", {
->>>>>>> 94b62c9 (READme.MD file completed)
->>>>>>> a751740 (READme.MD file completed)
-
-    const sessionDate =
-      new Date(
-        tutor.sessionStartDate
-      );
-
-<<<<<<< HEAD
-    if (currentDate < sessionDate) {
-=======
-<<<<<<< HEAD
-			body: JSON.stringify(bookingData),
-		})
-			.then((res) => res.json())
->>>>>>> a751740 (READme.MD file completed)
-
-      alert(
-        "Booking is not available yet for this tutor"
-      );
-
-      return;
-    }
+    const user = getUser();
 
     // BOOKING DATA
 
@@ -125,23 +64,18 @@ export default function TutorsPage() {
 
       tutorName: tutor.tutorName,
 
-      studentName: "Demo User",
-
-      studentEmail: "demo@gmail.com",
-
       status: "booked",
     };
 
     // SAVE BOOKING
 
-    fetch("http://localhost:5000/bookings", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
 
       method: "POST",
 
       headers: {
-
-        "content-type":
-          "application/json",
+        "content-type": "application/json",
+        ...authHeaders(),
       },
 
       body: JSON.stringify(
@@ -159,46 +93,7 @@ export default function TutorsPage() {
 
           fetch(
 
-<<<<<<< HEAD
-=======
-							<button
-								disabled={tutor.totalSlot === 0}
-								onClick={() => handleBookSession(tutor)}
-								className='mt-5 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg w-full disabled:bg-gray-400'
-							>
-								{tutor.totalSlot === 0 ? 'Fully Booked' : 'Book Session'}
-							</button>
-						</div>
-					</div>
-				))}
-			</div>
-		</div>
-	);
-}
-=======
-      headers: {
-
-        "content-type":
-          "application/json",
-      },
-
-      body: JSON.stringify(
-        bookingData
-      ),
-    })
-
-      .then((res) => res.json())
-
-      .then((data) => {
-
-        if (data.insertedId) {
-
-          // SLOT DECREASE
-
-          fetch(
-
->>>>>>> a751740 (READme.MD file completed)
-            `http://localhost:5000/tutors/slot/${tutor._id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/tutors/slot/${tutor._id}`,
 
             {
               method: "PATCH",
@@ -379,9 +274,4 @@ export default function TutorsPage() {
 
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 94b62c9 (READme.MD file completed)
->>>>>>> a751740 (READme.MD file completed)
