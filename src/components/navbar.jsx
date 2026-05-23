@@ -47,6 +47,24 @@ if (!mounted) return null;
               Home
             </Link>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+								<button
+									className='bg-blue-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-cyan-700 transition'
+									onClick={() => router.push('/register')}
+								>
+									Register
+								</button>
+							</>
+						)}
+					</div>
+				</div>
+			</div>
+		</nav>
+	);
+=======
+>>>>>>> a751740 (READme.MD file completed)
             <Link href="/tutors" className="hover:text-cyan-600">
               Tutors
             </Link>
@@ -92,6 +110,10 @@ if (!mounted) return null;
       </div>
     </nav>
   );
+<<<<<<< HEAD
+=======
+>>>>>>> 94b62c9 (READme.MD file completed)
+>>>>>>> a751740 (READme.MD file completed)
 };
 
 export default Navbar;
