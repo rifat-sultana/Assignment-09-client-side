@@ -75,7 +75,9 @@ if (!mounted) return null;
                 {theme === "dark" ? "🌞 Light" : "🌙 Dark"}
                   </button>
 
-          <button className="bg-blue-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-cyan-700 transition">
+          <button className="bg-blue-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-cyan-700 transition"
+          
+          >
             Login
               </button>
           
