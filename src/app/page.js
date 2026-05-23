@@ -4,7 +4,7 @@ import Banner from "@/components/Banner";
 export const dynamic = 'force-dynamic';
 
 async function getTutors() {
-  const res = await fetch(`${process.env.API_KEY}/tutors`);
+ const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`);
 
   return res.json();
 }
