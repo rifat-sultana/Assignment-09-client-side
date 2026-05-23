@@ -18,7 +18,9 @@ const Navbar = () => {
 		setMounted(true);
 	}, []);
 
-	if (!mounted) return null;
+	if (!mounted) {
+		return null;
+	}
 
 	return (
 		<nav className='bg-white text-black dark:bg-gray-900 dark:text-white shadow-md'>
