@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authHeaders, getUser } from "@/lib/jwt";
+import toast from "react-hot-toast";
+import { authHeaders } from "@/lib/jwt";
 
 export default function TutorsPage() {
 
@@ -9,256 +10,202 @@ export default function TutorsPage() {
 
   useEffect(() => {
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/tutors`)
+    fetch("https://assignment-09-server-side.onrender.com/tutors")
 
       .then((res) => res.json())
 
-      .then((data) => {
-
-        console.log(data);
-
-        setTutors(data);
-      });
+      .then((data) => setTutors(data));
 
   }, []);
 
-  // BOOK SESSION FUNCTION
 
-  const handleBookSession = async (tutor) => {
+  const handleBook = async (tutor) => {
 
-    // SLOT CHECK
+    if (tutor.totalSlot <= 0) {
 
-    if (tutor.totalSlot === 0) {
-
-      alert(
-        "No available slots left"
+      return toast.error(
+        "This session is fully booked"
       );
-
-      return;
     }
 
-    // DATE CHECK
+    try {
 
-    const currentDate =
-      new Date();
+      const bookingData = {
 
-    const sessionDate =
-      new Date(
-        tutor.sessionStartDate
-      );
+        tutorId: tutor._id,
 
-    if (currentDate < sessionDate) {
+        tutorName: tutor.tutorName,
 
-      alert(
-        "Booking is not available yet for this tutor"
-      );
+        image: tutor.photo,
 
-      return;
-    }
+        subject: tutor.subject,
 
-    const user = getUser();
+        fee: tutor.hourlyFee,
+      };
 
-    // BOOKING DATA
 
-    const bookingData = {
 
-      tutorName: tutor.tutorName,
+      const bookingRes = await fetch(
+        "https://assignment-09-server-side.onrender.com/bookings",
+        {
+          method: "POST",
 
-      status: "booked",
-    };
+          headers: {
+            "Content-Type": "application/json",
+            ...authHeaders(),
+          },
 
-    // SAVE BOOKING
-
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
-
-      method: "POST",
-
-      headers: {
-        "content-type": "application/json",
-        ...authHeaders(),
-      },
-
-      body: JSON.stringify(
-        bookingData
-      ),
-    })
-
-      .then((res) => res.json())
-
-      .then((data) => {
-
-        if (data.insertedId) {
-
-          // SLOT DECREASE
-
-          fetch(
-
-            `${process.env.NEXT_PUBLIC_API_URL}/tutors/slot/${tutor._id}`,
-
-            {
-              method: "PATCH",
-            }
-          );
-
-          alert(
-            "Session Booked Successfully"
-          );
-
-          // UI UPDATE
-
-          const updatedTutors =
-            tutors.map((item) => {
-
-              if (
-                item._id === tutor._id
-              ) {
-
-                return {
-
-                  ...item,
-
-                  totalSlot:
-                    item.totalSlot - 1,
-                };
-              }
-
-              return item;
-            });
-
-          setTutors(updatedTutors);
+          body: JSON.stringify(bookingData),
         }
+      );
+
+
+
+      const result = await bookingRes.json();
+
+
+
+      if (!bookingRes.ok) {
+
+        return toast.error(
+          result.message || "Booking failed"
+        );
+      }
+
+
+
+      const updatedTutors = tutors.map((item) => {
+
+        if (item._id === tutor._id) {
+
+          return {
+
+            ...item,
+
+            totalSlot: item.totalSlot - 1,
+          };
+        }
+
+        return item;
       });
+
+      setTutors(updatedTutors);
+
+      toast.success(
+        "Session booked successfully"
+      );
+
+    } catch (error) {
+
+      toast.error(
+        "Something went wrong"
+      );
+    }
   };
 
   return (
+    <div className="max-w-7xl mx-auto px-5 py-12">
 
-    <div className="p-10">
-
-      <h1 className="text-4xl font-bold text-center mb-10">
-
+      {/* Heading */}
+      <h1 className="text-5xl font-bold text-center mb-14">
         All Tutors
-
       </h1>
 
-      {
-        tutors.length === 0 && (
-
-          <div className="text-center text-2xl font-bold">
-
-            No Tutors Available
-
-          </div>
-        )
-      }
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
         {tutors.map((tutor) => (
 
           <div
             key={tutor._id}
-            className="border rounded-2xl shadow-lg overflow-hidden bg-white"
+            className="bg-white rounded-2xl shadow-lg border p-5 hover:shadow-2xl transition duration-300"
           >
 
-            <img
-              src={tutor.photo}
-              alt={tutor.tutorName}
-              className="w-full h-64 object-cover"
-            />
+            {/* Image */}
+            <div className="flex justify-center pt-3">
 
-            <div className="p-5">
+              <img
+                src={tutor.photo}
+                alt={tutor.tutorName}
+                className="w-56 h-56 rounded-xl object-cover border shadow-md hover:scale-105 transition duration-300"
+              />
 
-              <h2 className="text-2xl font-bold mb-2">
+            </div>
+
+
+
+            {/* Content */}
+            <div className="mt-6">
+
+              <h2 className="text-3xl font-bold mb-4">
 
                 {tutor.tutorName}
 
               </h2>
 
-              <p>
 
-                <span className="font-semibold">
 
-                  Subject:
+              <div className="space-y-2 text-gray-700">
 
-                </span>{" "}
+                <p>
+                  <span className="font-semibold">
+                    Subject:
+                  </span>{" "}
+                  {tutor.subject}
+                </p>
 
-                {tutor.subject}
+                <p>
+                  <span className="font-semibold">
+                    Location:
+                  </span>{" "}
+                  {tutor.location}
+                </p>
 
-              </p>
+                <p>
+                  <span className="font-semibold">
+                    Experience:
+                  </span>{" "}
+                  {tutor.experience}
+                </p>
 
-              <p>
+                <p>
+                  <span className="font-semibold">
+                    Fee:
+                  </span>{" "}
+                  ৳ {tutor.hourlyFee}
+                </p>
 
-                <span className="font-semibold">
+                <p>
+                  <span className="font-semibold">
+                    Available Slot:
+                  </span>{" "}
+                  {tutor.totalSlot}
+                </p>
 
-                  Location:
+                <p>
+                  <span className="font-semibold">
+                    Mode:
+                  </span>{" "}
+                  {tutor.teachingMode}
+                </p>
 
-                </span>{" "}
+              </div>
 
-                {tutor.location}
 
-              </p>
 
-              <p>
-
-                <span className="font-semibold">
-
-                  Experience:
-
-                </span>{" "}
-
-                {tutor.experience}
-
-              </p>
-
-              <p>
-
-                <span className="font-semibold">
-
-                  Fee:
-
-                </span>{" "}
-
-                ৳ {tutor.hourlyFee}
-
-              </p>
-
-              <p>
-
-                <span className="font-semibold">
-
-                  Available Slot:
-
-                </span>{" "}
-
-                {tutor.totalSlot}
-
-              </p>
-
-              <p>
-
-                <span className="font-semibold">
-
-                  Mode:
-
-                </span>{" "}
-
-                {tutor.teachingMode}
-
-              </p>
-
+              {/* Button */}
               <button
-
-                disabled={tutor.totalSlot === 0}
-
-                onClick={() =>
-                  handleBookSession(tutor)
-                }
-
-                className="mt-5 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg w-full disabled:bg-gray-400"
+                onClick={() => handleBook(tutor)}
+                disabled={tutor.totalSlot <= 0}
+                className={`w-full mt-6 py-3 rounded-xl text-white font-semibold transition ${
+                  tutor.totalSlot <= 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700"
+                }`}
               >
 
                 {
-                  tutor.totalSlot === 0
+                  tutor.totalSlot <= 0
                     ? "Fully Booked"
                     : "Book Session"
                 }
@@ -268,10 +215,9 @@ export default function TutorsPage() {
             </div>
 
           </div>
+
         ))}
-
       </div>
-
     </div>
   );
 }

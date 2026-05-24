@@ -1,63 +1,66 @@
+"use client";
+
 import Link from "next/link";
-import { MapPin, BookOpen } from "lucide-react";
 
 export default function HomeTutors({ tutors }) {
   return (
-    <div className="py-14 px-5 md:px-10">
-      
-      <h1 className="text-4xl font-bold text-center mb-12">
+    <div className="max-w-7xl mx-auto px-5 py-12">
+
+      {/* Heading */}
+      <h1 className="text-4xl font-bold text-center mb-10">
         Available Tutors
       </h1>
 
+      {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
-        {tutors?.map((tutor) => (
-          
+
+        {tutors.map((tutor) => (
+
           <div
             key={tutor._id}
-            className="bg-white rounded-3xl overflow-hidden shadow-md border hover:shadow-2xl transition duration-300"
+            className="bg-white rounded-2xl shadow-lg overflow-hidden border hover:shadow-2xl transition duration-300"
           >
 
             {/* Image */}
-            <div className="overflow-hidden">
+            <div className="h-64 overflow-hidden">
               <img
                 src={tutor.photo}
                 alt={tutor.tutorName}
-                className="w-full h-64 object-cover hover:scale-105 transition duration-500"
+                className="w-full h-full object-contain hover:scale-105 transition duration-300"
               />
             </div>
 
             {/* Content */}
             <div className="p-6">
 
-              {/* Name */}
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl font-bold mb-3">
                 {tutor.tutorName}
               </h2>
 
-              {/* Subject */}
-              <div className="flex items-center gap-2 mt-3 text-gray-600">
-                <BookOpen size={18} />
-                <p>{tutor.subject}</p>
-              </div>
+              <p className="mb-2 text-gray-700">
+                <span className="font-semibold">
+                  Subject:
+                </span>{" "}
+                {tutor.subject}
+              </p>
 
-              {/* Location */}
-              <div className="flex items-center gap-2 mt-2 text-gray-600">
-                <MapPin size={18} />
-                <p>{tutor.location}</p>
-              </div>
+              <p className="mb-4 text-gray-700">
+                <span className="font-semibold">
+                  Location:
+                </span>{" "}
+                {tutor.location}
+              </p>
 
-              {/* Button */}
-              <div className="mt-6">
-                <Link href={`/tutors/${tutor._id}`}>
-                  <button className="btn btn-primary w-full rounded-xl">
-                    View Details
-                  </button>
-                </Link>
-              </div>
+              <Link
+                href={`/tutors/${tutor._id}`}
+                className="inline-block bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition"
+              >
+                View Details
+              </Link>
 
             </div>
           </div>
+
         ))}
       </div>
     </div>
